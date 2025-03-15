@@ -29,12 +29,11 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # 安装 Chrome
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list \
-    && apt-get update \
-    && apt-get install -y google-chrome-stable \
-    && rm -rf /var/lib/apt/lists/*
-
+RUN apt-get update && apt-get install -y wget \
+    && wget -q -O /tmp/google-chrome.deb http://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_131.0.6778.69-1_amd64.deb \
+    && apt-get install -y /tmp/google-chrome.deb \
+    && rm -rf /var/lib/apt/lists/* /tmp/google-chrome.deb
+    
 # 验证 Chrome 安装
 RUN google-chrome --version
 
